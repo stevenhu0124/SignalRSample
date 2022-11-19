@@ -1,4 +1,6 @@
-﻿using Microsoft.Owin.Hosting;
+﻿using Microsoft.AspNet.SignalR.Messaging;
+using Microsoft.Owin.Hosting;
+using SignalRServer.Helpers;
 using System.Reflection;
 using System.Windows;
 
@@ -11,11 +13,31 @@ namespace SignalRServer
     public partial class MainWindow : Window
     {
         private const string SERVER_URI = "http://localhost:8888";
+        
 
         public MainWindow()
         {
             InitializeComponent();
             StartServer();
+
+            SignalHelper.Instance.ServerReceived += Received_ClientRequest;
+            SignalHelper.Instance.ServerConnected += Received_ClientConnect;
+            SignalHelper.Instance.ServerBroadcast += Received_ServerBroadcast;
+        }
+
+        private void Received_ServerBroadcast(string message)
+        {
+            WriteToConsole(string.Format("Broadcast all client: {0}", message));
+        }
+
+        private void Received_ClientConnect(string clinetID)
+        {
+            WriteToConsole(string.Format("Client <{0}> is connected", clinetID));
+        }
+
+        private void Received_ClientRequest(string clientID, string message)
+        {
+            WriteToConsole(string.Format("Received form Client: <{0}>, message: {1}", clientID, message));
         }
 
         private void StartServer()
@@ -42,6 +64,12 @@ namespace SignalRServer
                 return;
             }
             RichTextBoxConsole.AppendText(message + "\r");
+        }
+
+        private void Window_Unloaded(object sender, RoutedEventArgs e)
+        {
+            SignalHelper.Instance.ServerReceived -= Received_ClientRequest;
+            SignalHelper.Instance.ServerConnected -= Received_ClientConnect;
         }
     }
 }
