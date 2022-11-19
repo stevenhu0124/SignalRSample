@@ -13,7 +13,7 @@ namespace SignalRServer.Helpers
 
         public event Action<string, string> ServerReceived;
 
-        public event Action<string> ServerConnected;
+        public event Action<string, string> ServerConnected;
 
         public event Action<string> ServerBroadcast;
 
@@ -23,9 +23,9 @@ namespace SignalRServer.Helpers
             ServerReceived?.Invoke(clientID, message);
         }
 
-        public void ClientConnected(string clientID)
+        public void ClientConnected(string connected, string clientID)
         {
-            ServerConnected?.Invoke(clientID);
+            ServerConnected?.Invoke(connected, clientID);
         }
 
         public void BroadcastToAllClients(string message) 

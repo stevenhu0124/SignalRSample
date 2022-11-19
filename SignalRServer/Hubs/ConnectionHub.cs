@@ -33,12 +33,13 @@ namespace SignalRServer.Hubs
 
         public override Task OnConnected()
         {
-            SignalHelper.Instance.ClientConnected(Context.ConnectionId);
+            SignalHelper.Instance.ClientConnected("Connected", Context.ConnectionId);
             return base.OnConnected();
         }
 
         public override Task OnDisconnected(bool ss)
         {
+            SignalHelper.Instance.ClientConnected("Disconnected", Context.ConnectionId);
             return base.OnDisconnected(ss);
         }
     }

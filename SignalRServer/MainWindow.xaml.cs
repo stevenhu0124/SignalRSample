@@ -30,9 +30,9 @@ namespace SignalRServer
             WriteToConsole(string.Format("Broadcast all client: {0}", message));
         }
 
-        private void Received_ClientConnect(string clinetID)
+        private void Received_ClientConnect(string connectedStatus, string clinetID)
         {
-            WriteToConsole(string.Format("Client <{0}> is connected", clinetID));
+            WriteToConsole(string.Format("Client <{0}> is {1}", clinetID, connectedStatus));
         }
 
         private void Received_ClientRequest(string clientID, string message)
@@ -56,14 +56,14 @@ namespace SignalRServer
 
         private void WriteToConsole(string message)
         {
-            if (!(RichTextBoxConsole.CheckAccess()))
+            if (!(OutputRichTextBox.CheckAccess()))
             {
                 this.Dispatcher.Invoke(() =>
                     WriteToConsole(message)
                 );
                 return;
             }
-            RichTextBoxConsole.AppendText(message + "\r");
+            OutputRichTextBox.AppendText(message + "\r");
         }
 
         private void Window_Unloaded(object sender, RoutedEventArgs e)
