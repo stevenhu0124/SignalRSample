@@ -19,17 +19,12 @@ namespace SignalRClient
         public MainWindow()
         {
             InitializeComponent();
-            ConnectServer();
-        }
-
-        private void ConnectServer()
-        {
-            StatusText.Content = "Connecting to server...";
             ConnectAsync();
         }
 
         private async void ConnectAsync()
         {
+            StatusText.Content = "Connecting to server...";
             hubConnection = new HubConnection(SERVER_URI);
             hubConnection.Closed += Connection_Closed;
             HubProxy = hubConnection.CreateHubProxy("ConnectionHub");
@@ -45,13 +40,14 @@ namespace SignalRClient
             catch (HttpRequestException)
             {
                 StatusText.Content = string.Format("Unable to connect to server {0}: Start server before connecting clients.", SERVER_URI);
+                ReconnectedBtn.IsEnabled = true;
                 return;
             }
 
            
             ButtonSend.IsEnabled = true;
             TextBoxMessage.Focus();
-            OutputRichTextBox.AppendText("Connected to server at " + SERVER_URI + "\r");
+            StatusText.Content = "Connected to server at " + SERVER_URI;
         }
 
 
@@ -60,6 +56,7 @@ namespace SignalRClient
             var dispatcher = Application.Current.Dispatcher;
             dispatcher.Invoke(() => ButtonSend.IsEnabled = false);
             dispatcher.Invoke(() => StatusText.Content = "You have been disconnected.");
+            dispatcher.Invoke(() => ReconnectedBtn.IsEnabled = false);
         }
 
         private void ButtonSend_Click(object sender, RoutedEventArgs e)
@@ -67,6 +64,12 @@ namespace SignalRClient
             HubProxy.Invoke("ClientRequest", TextBoxMessage.Text);
             TextBoxMessage.Text = string.Empty;
             TextBoxMessage.Focus();
+        }
+
+        private void Reconnected_Click(object sender, RoutedEventArgs e)
+        {
+            ReconnectedBtn.IsEnabled = false;
+            ConnectAsync();
         }
     }
 }
