@@ -79,7 +79,7 @@ namespace SignalRServer
             var context = GlobalHost.ConnectionManager.GetHubContext<ConnectionHub>();
             context.Clients.All.NotifyClient(TextBoxMessage.Text);
 
-            WriteToConsole("Broadcast button click to all clint");
+            WriteToConsole("Broadcast button click to all client");
 
             TextBoxMessage.Text = string.Empty;
             TextBoxMessage.Focus();
