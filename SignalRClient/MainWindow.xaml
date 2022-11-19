@@ -17,7 +17,7 @@
             <Button x:Name="ButtonSend" Content="Send" Width="80" Height="20" Click="ButtonSend_Click" IsDefault="True" IsEnabled="False" HorizontalAlignment="Right"/>
         </Grid>
         
-        <RichTextBox x:Name="OutputRichTextBox" Margin="10" Height="500" ScrollViewer.VerticalScrollBarVisibility="Auto" IsReadOnly="True">
+        <RichTextBox x:Name="OutputRichTextBox" Margin="10" Height="450" ScrollViewer.VerticalScrollBarVisibility="Auto" IsReadOnly="True">
             <FlowDocument>
                 <Paragraph>
                 </Paragraph>
