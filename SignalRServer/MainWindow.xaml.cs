@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Owin.Hosting;
+using System.Reflection;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace SignalRServer
 {
@@ -20,9 +10,38 @@ namespace SignalRServer
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const string SERVER_URI = "http://localhost:8888";
+
         public MainWindow()
         {
             InitializeComponent();
+            StartServer();
+        }
+
+        private void StartServer()
+        {
+            try
+            {
+                WebApp.Start<Startup>(SERVER_URI);
+                WriteToConsole("Server started at " + SERVER_URI);
+            }
+            catch (TargetInvocationException)
+            {
+                WriteToConsole("A server is already running at " + SERVER_URI);
+                return;
+            }       
+        }
+
+        private void WriteToConsole(string message)
+        {
+            if (!(RichTextBoxConsole.CheckAccess()))
+            {
+                this.Dispatcher.Invoke(() =>
+                    WriteToConsole(message)
+                );
+                return;
+            }
+            RichTextBoxConsole.AppendText(message + "\r");
         }
     }
 }

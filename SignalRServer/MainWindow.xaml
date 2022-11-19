@@ -7,6 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <RichTextBox x:Name="RichTextBoxConsole" Margin="10">
+            <FlowDocument>
+                <Paragraph>
+                </Paragraph>
+            </FlowDocument>
+            </RichTextBox>
+            
     </Grid>
 </Window>
