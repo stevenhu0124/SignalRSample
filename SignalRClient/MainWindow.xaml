@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SignalRClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="580" Width="800" MaxHeight="580" MaxWidth="800">
+    <StackPanel>
+        <Label x:Name="StatusText" HorizontalAlignment="Center"/>
         
-    </Grid>
+        <Grid Margin="10,0">
+            <TextBox x:Name="TextBoxMessage" Height="20" TextWrapping="Wrap" Margin="0,0,85,0"/>
+            <Button x:Name="ButtonSend" Content="Send" Width="80" Height="20" Click="ButtonSend_Click" IsDefault="True" IsEnabled="False" HorizontalAlignment="Right"/>
+        </Grid>
+        
+        <RichTextBox x:Name="OutputRichTextBox" Margin="10" Height="500" ScrollViewer.VerticalScrollBarVisibility="Auto" IsReadOnly="True">
+            <FlowDocument>
+                <Paragraph>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+    </StackPanel>
 </Window>
