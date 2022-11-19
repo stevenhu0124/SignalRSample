@@ -7,12 +7,15 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Unloaded="Window_Unloaded">
     <Grid>
-        <RichTextBox x:Name="OutputRichTextBox" Margin="10">
+        <RichTextBox x:Name="OutputRichTextBox" Margin="10,10,10,40" VerticalScrollBarVisibility="Auto">
             <FlowDocument>
                 <Paragraph>
                 </Paragraph>
             </FlowDocument>
             </RichTextBox>
-            
+        <Grid Margin="10" VerticalAlignment="Bottom">
+            <TextBox x:Name="TextBoxMessage" Height="20" TextWrapping="Wrap" Margin="0,0,85,0"/>
+            <Button x:Name="BroadcastBtn" Content="Broadcast" Width="80" Height="20" Click="BroadcastBtn_Click" IsDefault="True" IsEnabled="True" HorizontalAlignment="Right"/>
+        </Grid>
     </Grid>
 </Window>

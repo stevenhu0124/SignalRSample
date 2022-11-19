@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNet.SignalR.Messaging;
+﻿using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Messaging;
 using Microsoft.Owin.Hosting;
 using SignalRServer.Helpers;
+using SignalRServer.Hubs;
 using System.Reflection;
 using System.Windows;
 
@@ -70,6 +72,17 @@ namespace SignalRServer
         {
             SignalHelper.Instance.ServerReceived -= Received_ClientRequest;
             SignalHelper.Instance.ServerConnected -= Received_ClientConnect;
+        }
+
+        private void BroadcastBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var context = GlobalHost.ConnectionManager.GetHubContext<ConnectionHub>();
+            context.Clients.All.NotifyClient(TextBoxMessage.Text);
+
+            WriteToConsole("Broadcast button click to all clint");
+
+            TextBoxMessage.Text = string.Empty;
+            TextBoxMessage.Focus();
         }
     }
 }
